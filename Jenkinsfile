@@ -4,6 +4,7 @@ pipeline {
     environment {
         IMAGE_NAME = 'fatimasarmadd/21i-1139-assignment1:latest' // Ensure proper tagging
         CONTAINER_NAME = 'assignment1_container'
+        ADMIN_EMAIL = 'admin@example.com' // Replace with actual admin email
     }
 
     stages {
@@ -63,11 +64,24 @@ pipeline {
     }
 
     post {
-        always {
+        success {
             bat '''
             echo Cleaning up unused Docker images...
             docker image prune -f
             '''
+            // Sending email notification to admin
+            emailext(
+                subject: "Deployment Successful: Assignment1",
+                body: "The latest version of Assignment1 has been successfully deployed via Jenkins.",
+                to: "${ADMIN_EMAIL}"
+            )
+        }
+        failure {
+            emailext(
+                subject: "Deployment Failed: Assignment1",
+                body: "The deployment of Assignment1 has failed. Please check the Jenkins logs for details.",
+                to: "${ADMIN_EMAIL}"
+            )
         }
     }
 }
