@@ -3,25 +3,25 @@ name: Flake8 Linter
 on:
   pull_request:
     branches:
-      - dev  # Run only on pull requests to the dev branch
+      - dev
 
 jobs:
   lint:
-    runs-on: ubuntu-latest  # Runs on the latest Ubuntu runner
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4  # Fetches your code
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Set Up Python
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.12'  # Adjust based on your Python version
+          python-version: "3.12"
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install flake8  # Install Flake8
+          pip install flake8
 
       - name: Run Flake8
-        run: flake8 . --count --max-line-length=100 --show-source --statistics
+        run: flake8 app/ --count --show-source --statistics
