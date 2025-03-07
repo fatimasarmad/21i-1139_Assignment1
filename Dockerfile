@@ -5,7 +5,7 @@ FROM python:3.9
 WORKDIR /app
 
 # Copy the application files
-COPY app/ /app/
+COPY . /app
 
 # Install required dependencies
 RUN pip install --no-cache-dir flask
